@@ -10,6 +10,12 @@ namespace ResourceManager.BusinessLogic.Mappers
         {
             CreateMap<User, UserDto>();
             CreateMap<UserDto, User>();
+
+            CreateMap<Resource, ResourceDto>();
+            CreateMap<ResourceDto, Resource>();
+
+            CreateMap<ResourceItem, ResourceItemDto>();
+            CreateMap<ResourceItemDto, ResourceItem>();
         }
     }
 }

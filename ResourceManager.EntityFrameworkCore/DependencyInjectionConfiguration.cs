@@ -8,6 +8,8 @@ namespace ResourceManager.EntityFrameworkCore
         public static void RegisterRepositories(this IServiceCollection services)
         {
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IResourceRepository, ResourceRepository>();
+            services.AddScoped<IResourceItemRepository, ResourceItemRepository>();
         }
     }
 }
