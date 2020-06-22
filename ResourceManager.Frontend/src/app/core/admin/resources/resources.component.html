@@ -1,0 +1,17 @@
+<div class="card">
+    <div class="card-body">
+      <h5 class="card-title">Resources</h5>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Resource name</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let resource of resources">
+            <td>{{ resource.name }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
