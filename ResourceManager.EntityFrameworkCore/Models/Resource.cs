@@ -10,8 +10,6 @@ namespace ResourceManager.EntityFrameworkCore.Models
     {
         [Required]
         public string Name { get; set; }
-        public List<ResourceItem> Items { get; set; }
-        public int Owner { get; set; }
-        public bool AcceptJoinRequest { get; set; }
+        public List<ResourceItem> ResourceItems { get; set; }
     }
 }

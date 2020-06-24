@@ -5,7 +5,6 @@ using ResourceManager.EntityFrameworkCore.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Linq;
 
 namespace ResourceManager.BusinessLogic.Services
 {
@@ -29,7 +28,7 @@ namespace ResourceManager.BusinessLogic.Services
 
         public async Task<UserDto> GetUser(string guid)
         {
-            var user = await _userRepository.GetUserByGuid(guid);
+            var user = await _userRepository.GetByGuid(guid);
 
             return _mapper.Map<UserDto>(user);
         }
@@ -48,7 +47,7 @@ namespace ResourceManager.BusinessLogic.Services
 
         public async Task UpdateUser(UserDto userDto)
         {
-            var user = await _userRepository.GetUserByGuid(userDto.Guid.ToString());
+            var user = await _userRepository.GetByGuid(userDto.Guid.ToString());
 
             if (user == null)
             {
@@ -63,7 +62,7 @@ namespace ResourceManager.BusinessLogic.Services
 
         public async Task DeleteUser(string guid)
         {
-            var user = await _userRepository.GetUserByGuid(guid);
+            var user = await _userRepository.GetByGuid(guid);
 
             _userRepository.Delete(user);
             await _userRepository.SaveChangesAsync();
@@ -71,7 +70,7 @@ namespace ResourceManager.BusinessLogic.Services
 
         public async Task VerifyEmail(string guid)
         {
-            var user = await _userRepository.GetUserByGuid(guid);
+            var user = await _userRepository.GetByGuid(guid);
             user.IsEmailVerified = true;
 
             _userRepository.Update(user);

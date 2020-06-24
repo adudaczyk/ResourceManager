@@ -1,11 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using ResourceManager.EntityFrameworkCore.Models;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ResourceManager.EntityFrameworkCore.Repositories
 {
     public class GenericRepository<TEntity> : IGenericRepository<TEntity>
-        where TEntity : class
+        where TEntity : Entity
     {
         protected readonly DbSet<TEntity> _dbSet;
         protected readonly ResourceManagerDbContext _dbContext;
@@ -34,6 +36,11 @@ namespace ResourceManager.EntityFrameworkCore.Repositories
         public void Delete(TEntity entity)
         {
             _dbSet.Remove(entity);
+        }
+
+        public async Task<TEntity> GetByGuid(string guid)
+        {
+            return await _dbSet.Where(x => x.Guid.ToString() == guid).FirstOrDefaultAsync();
         }
 
         public Task SaveChangesAsync()

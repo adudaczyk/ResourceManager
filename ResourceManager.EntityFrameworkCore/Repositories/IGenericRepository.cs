@@ -10,6 +10,7 @@ namespace ResourceManager.EntityFrameworkCore.Repositories
         void Add(TEntity entity);
         void Update(TEntity entity);
         void Delete(TEntity entity);
+        Task<TEntity> GetByGuid(string guid);
         Task SaveChangesAsync();
     }
 }

@@ -10,6 +10,5 @@ namespace ResourceManager.EntityFrameworkCore.Models
         [Required]
         public string Name { get; set; }
         public int ResourceId { get; set; }
-        public Resource Resource { get; set; }
     }
 }

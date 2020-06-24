@@ -28,7 +28,7 @@ namespace ResourceManager.BusinessLogic.Services
 
         public async Task<ResourceItemDto> GetResourceItem(string guid)
         {
-            var resourceItem = await _resourceItemRepository.GetResourceItemByGuid(guid);
+            var resourceItem = await _resourceItemRepository.GetByGuid(guid);
 
             return _mapper.Map<ResourceItemDto>(resourceItem);
         }
@@ -46,7 +46,7 @@ namespace ResourceManager.BusinessLogic.Services
 
         public async Task UpdateResourceItem(ResourceItemDto resourceItemDto)
         {
-            var resourceItem = await _resourceItemRepository.GetResourceItemByGuid(resourceItemDto.Guid.ToString());
+            var resourceItem = await _resourceItemRepository.GetByGuid(resourceItemDto.Guid.ToString());
 
             if (resourceItem == null)
             {
@@ -61,7 +61,7 @@ namespace ResourceManager.BusinessLogic.Services
 
         public async Task DeleteResourceItem(string guid)
         {
-            var resourceItem = await _resourceItemRepository.GetResourceItemByGuid(guid);
+            var resourceItem = await _resourceItemRepository.GetByGuid(guid);
 
             _resourceItemRepository.Delete(resourceItem);
             await _resourceItemRepository.SaveChangesAsync();

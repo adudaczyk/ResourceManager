@@ -6,6 +6,9 @@ namespace ResourceManager.EntityFrameworkCore
     public class ResourceManagerDbContext : DbContext
     {
         public DbSet<User> Users { get; set; }
+        public DbSet<Resource> Resources { get; set; }
+        public DbSet<ResourceItem> ResourceItems { get; set; }
+        public DbSet<Reservation> Reservations { get; set; }
 
         public ResourceManagerDbContext(DbContextOptions<ResourceManagerDbContext> options)
             : base(options)

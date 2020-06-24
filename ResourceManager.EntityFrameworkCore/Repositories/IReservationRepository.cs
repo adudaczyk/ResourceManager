@@ -2,7 +2,7 @@
 
 namespace ResourceManager.EntityFrameworkCore.Repositories
 {
-    public interface IUserRepository : IGenericRepository<User>
+    public interface IReservationRepository : IGenericRepository<Reservation>
     {
     }
 }

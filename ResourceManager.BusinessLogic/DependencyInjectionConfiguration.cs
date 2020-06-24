@@ -10,6 +10,7 @@ namespace ResourceManager.EntityFrameworkCore
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IResourceService, ResourceService>();
             services.AddScoped<IResourceItemService, ResourceItemService>();
+            services.AddScoped<IReservationService, ReservationService>();
         }
     }
 }

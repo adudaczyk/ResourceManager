@@ -1,7 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using ResourceManager.EntityFrameworkCore.Models;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using ResourceManager.EntityFrameworkCore.Models;
 
 namespace ResourceManager.EntityFrameworkCore.Repositories
 {
@@ -9,11 +6,6 @@ namespace ResourceManager.EntityFrameworkCore.Repositories
     {
         public ResourceRepository(ResourceManagerDbContext resourceManagerDbContext) : base(resourceManagerDbContext)
         {
-        }
-
-        public async Task<Resource> GetResourceByGuid(string guid)
-        {
-            return await _dbSet.Where(x => x.Guid.ToString() == guid).FirstOrDefaultAsync();
         }
     }
 }
