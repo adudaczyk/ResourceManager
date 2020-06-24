@@ -1,30 +1,42 @@
 <div class="row justify-content-md-center">
-    <div class="col-sm-4" style="min-width: 400px;">
-        <form class="form-signin">
+    <div class="col-md-4">
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
 
             <h1 class="h3 mb-3 font-weight-normal text-center">Register</h1>
-            <label for="inputFirstName" class="sr-only">First Name</label>
-            <input type="text" id="inputFirstName" class="form-control" placeholder="First Name" required autofocus>
+
+            <div class="form-group">
+                <label for="inputFirstName" class="sr-only">First Name</label>
+                <input type="text" id="inputFirstName" formControlName="firstName" class="form-control" placeholder="First Name" required autofocus>
+                <span *ngIf="!registerForm.get('firstName').valid && registerForm.get('firstName').touched" class="help-block">Please enter a valid first name!</span>
+            </div>
             <p></p>
 
-            <label for="inputLastName" class="sr-only">Last Name</label>
-            <input type="text" id="inputLastName" class="form-control" placeholder="Last Name" required autofocus>
+            <div class="form-group">
+                <label for="inputLastName" class="sr-only">Last Name</label>
+                <input type="text" id="inputLastName" formControlName="lastName" class="form-control" placeholder="Last Name" required autofocus>
+                <span *ngIf="!registerForm.get('lastName').valid && registerForm.get('lastName').touched" class="help-block">Please enter a valid last name!</span>
+            </div>
             <p></p>
 
-            <label for="inputPhone" class="sr-only">Phone</label>
-            <input type="tel" id="inputPhone" class="form-control" placeholder="Phone" required autofocus pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}">
+            <div class="form-group">
+                <label for="inputPhone" class="sr-only">Phone</label>
+                <input type="tel" id="inputPhone" formControlName="phone" class="form-control" placeholder="Phone" required autofocus>
+                <span *ngIf="!registerForm.get('phone').valid && registerForm.get('phone').touched" class="help-block">Please enter a valid phone!</span>
+            </div>
             <p></p>
 
-            <label for="inputEmail" class="sr-only">Email</label>
-            <input type="email" id="inputEmail" class="form-control" placeholder="Email" required autofocus>
+            <div class="form-group">
+                <label for="inputEmail" class="sr-only">Email</label>
+                <input type="email" id="inputEmail" formControlName="email" class="form-control" placeholder="Email" required autofocus>
+                <span *ngIf="!registerForm.get('email').valid && registerForm.get('email').touched" class="help-block">Please enter a valid email!</span>
+            </div>
             <p></p>
 
-            <label for="inputPassword" class="sr-only">Password</label>
-            <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-            <p></p>
-
-            <label for="inputPassword" class="sr-only">Confirm Password</label>
-            <input type="password" id="inputConfirmPassword" class="form-control" placeholder="Confirm Password" required>
+            <div class="form-group">
+                <label for="inputPassword" class="sr-only">Password</label>
+                <input type="password" id="inputPassword" formControlName="password" class="form-control" placeholder="Password" required>
+                <span *ngIf="!registerForm.get('password').valid && registerForm.get('password').touched" class="help-block">Please enter a valid password - minimum 6 chars!</span>
+            </div>
             <p></p>
 
             <button class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
