@@ -109,8 +109,9 @@ namespace ResourceManager.EntityFrameworkCore.Migrations
 
                     b.Property<string>("LastName");
 
-                    b.Property<string>("Password")
-                        .IsRequired();
+                    b.Property<byte[]>("PasswordHash");
+
+                    b.Property<byte[]>("PasswordSalt");
 
                     b.Property<string>("Phone");
 

@@ -3,7 +3,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ResourceManager.EntityFrameworkCore.Models
 {
-
     [Table("Users", Schema = "dbo")]
     public class User : Entity
     {
@@ -12,8 +11,8 @@ namespace ResourceManager.EntityFrameworkCore.Models
         [Required]
         public string Email { get; set; }
         public string Phone { get; set; }
-        [Required]
-        public string Password { get; set; }
+        public byte[] PasswordHash { get; set; }
+        public byte[] PasswordSalt { get; set; }
         public bool IsEmailVerified { get; set; }
     }
 }

@@ -25,7 +25,7 @@ export class RegisterComponent implements OnInit {
     }
 
     onSubmit() {
-        this.apiServive.postUser(this.registerForm.value).subscribe(
+        this.apiServive.register(this.registerForm.value).subscribe(
             (response) => console.log(response),
             (error) => console.log(error)
             )
