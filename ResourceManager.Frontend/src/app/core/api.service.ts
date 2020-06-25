@@ -8,6 +8,8 @@ const localUrl = 'https://localhost:44320/';
 })
 export class ApiService {
 
+  headers: HttpHeaders = new HttpHeaders({'content-type' : 'application/json'});
+
   constructor(private http: HttpClient) { }
 
   getUsers() {
@@ -19,8 +21,12 @@ export class ApiService {
   }
 
   postUser(data: []) {
-    var headers = new HttpHeaders({'content-type' : 'application/json'});
     var body = JSON.stringify(data);
-    return this.http.post(localUrl + 'api/User', body, {headers: headers})
+    return this.http.post(localUrl + 'api/User', body, {headers: this.headers})
+  }
+
+  auth(data: []) {
+    var body = JSON.stringify(data);
+    return this.http.post(localUrl + 'api/Auth', body, {headers: this.headers})
   }
 }
