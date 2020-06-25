@@ -5,8 +5,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { LoginComponent } from './core/login/login.component';
-import { RegisterComponent } from './core/register/register.component';
+import { LoginComponent } from './core/authorization/login/login.component';
+import { RegisterComponent } from './core/authorization/register/register.component';
+import { ResetPasswordComponent } from './core/authorization/reset-password/reset-password.component';
 import { AdminComponent } from './core/admin/admin.component';
 import { AdminUsersComponent } from './core/admin/users/users.component';
 import { AdminResourcesComponent } from './core/admin/resources/resources.component';
@@ -16,6 +17,7 @@ import { AdminResourcesComponent } from './core/admin/resources/resources.compon
     AppComponent,
     LoginComponent,
     RegisterComponent,
+    ResetPasswordComponent,
     AdminComponent,
     AdminUsersComponent,
     AdminResourcesComponent
