@@ -35,9 +35,9 @@ namespace ResourceManager.Api.Controllers
 
             if (user == null)
                 return BadRequest(new { message = "Email or password is incorrect" });
-
-            var tokenHandler = new JwtSecurityTokenHandler();
+            
             var key = Encoding.ASCII.GetBytes(_configuration["SecretToken"]);
+
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new Claim[]
@@ -47,13 +47,16 @@ namespace ResourceManager.Api.Controllers
                 Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
+
+            var tokenHandler = new JwtSecurityTokenHandler();
             var token = tokenHandler.CreateToken(tokenDescriptor);
             var tokenString = tokenHandler.WriteToken(token);
 
             return Ok(new
             {
                 Email = user.Email,
-                Token = tokenString
+                Token = tokenString,
+                ExpiredDate = tokenDescriptor.Expires
             });
         }
 
