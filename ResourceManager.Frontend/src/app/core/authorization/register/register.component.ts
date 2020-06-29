@@ -3,6 +3,7 @@ import { ApiService } from '../../_services/api.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router  } from '@angular/router';
 import { AuthenticationService } from '../../_services/authentication.service';
+import { AlertService } from '../../_services/alert.service';
 
 @Component({
     selector: 'app-register',
@@ -16,7 +17,8 @@ export class RegisterComponent implements OnInit {
     constructor(
         private apiServive: ApiService,
         private router: Router,
-        private authenticationService: AuthenticationService
+        private authenticationService: AuthenticationService,
+        private alertService: AlertService
         ) {
             // redirect to home if already logged in
         if (this.authenticationService.currentUserValue) {
@@ -34,10 +36,13 @@ export class RegisterComponent implements OnInit {
         });
     }
 
-    onSubmit() {
+    register() {
         this.apiServive.register(this.registerForm.value).subscribe(
-            (response) => console.log(response),
-            (error) => console.log(error)
+            response => {
+                this.router.navigate(['/auth']);
+                this.alertService.success('A verification email has been sent to your inbox. You will need to click the activation link to complete your registration.');
+            },
+            (error) => this.alertService.error(error)
             )
     }
 

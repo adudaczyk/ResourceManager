@@ -36,7 +36,10 @@ namespace ResourceManager.Api.Controllers
 
             if (user == null)
                 return BadRequest(new { message = "Email or password is incorrect" });
-            
+
+            if (!user.IsEmailVerified)
+                return BadRequest(new { message = "Email address is not verified" });
+
             var key = Encoding.ASCII.GetBytes(_configuration["SecretToken"]);
 
             var claims = new List<Claim>()

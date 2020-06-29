@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Microsoft.Extensions.Configuration;
+using ResourceManager.BusinessLogic.Helpers;
 using ResourceManager.BusinessLogic.Models;
 using ResourceManager.EntityFrameworkCore.Models;
 using ResourceManager.EntityFrameworkCore.Repositories;
@@ -12,11 +14,13 @@ namespace ResourceManager.BusinessLogic.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
+        private readonly IConfiguration _configuration;
 
-        public UserService(IUserRepository userRepository, IMapper mapper)
+        public UserService(IUserRepository userRepository, IMapper mapper, IConfiguration configuration)
         {
             _userRepository = userRepository;
             _mapper = mapper;
+            _configuration = configuration;
         }
 
         public async Task<User> Authenticate(string email, string password)
@@ -105,6 +109,18 @@ namespace ResourceManager.BusinessLogic.Services
 
             _userRepository.Update(user);
             await _userRepository.SaveChangesAsync();
+        }
+
+        public void SendVerificationEmail(string email)
+        {
+            var emailHelper = new EmailHelper(_configuration);
+            emailHelper.SendUserVerificationEmail(email);
+        }
+
+        public void SendResetPasswordEmail(string email)
+        {
+            var emailHelper = new EmailHelper(_configuration);
+            emailHelper.SendResetPasswordLink(email);
         }
 
         private static void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)

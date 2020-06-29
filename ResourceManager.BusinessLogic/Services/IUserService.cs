@@ -14,5 +14,7 @@ namespace ResourceManager.BusinessLogic.Services
         Task UpdateUser(UserDto userDto);
         Task DeleteUser(string guid);
         Task VerifyEmail(string guid);
+        void SendVerificationEmail(string email);
+        void SendResetPasswordEmail(string email);
     }
 }
