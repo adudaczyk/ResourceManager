@@ -1,11 +1,12 @@
 <div class="container">
   <div class="row">
     <div class="col-md-12">
+      <button *ngIf="true" type="button" class="btn btn-outline-secondary" style="float: right;" (click)="logout()">Logout</button>
       <h1 class="text-center font-weight-normal">{{ title }}</h1>
       <hr>
+      <app-alert></app-alert>
     </div>
   </div>
   <div style="padding-top: 50px;"></div>
-
 
 <router-outlet></router-outlet>

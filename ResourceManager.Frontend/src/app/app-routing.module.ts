@@ -5,15 +5,18 @@ import { AdminComponent } from '../app/core/admin/admin.component';
 import { LoginComponent } from './core/authorization/login/login.component';
 import { RegisterComponent } from './core/authorization/register/register.component';
 import { ResetPasswordComponent } from './core/authorization/reset-password/reset-password.component';
-import { AuthGuard } from './core/authorization/guard/auth.guard';
+import { AuthGuard } from './core/_helpers/auth.guard';
 
 
 const routes: Routes = [
-  { path: '', redirectTo: '/auth', pathMatch: 'full' },
+  { path: '', redirectTo: '/admin', pathMatch: 'full' },
   { path: 'auth', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'reset-password', component: ResetPasswordComponent },
   { path: 'admin', component: AdminComponent, canActivate: [AuthGuard] },
+
+  // otherwise redirect to home
+  { path: '**', redirectTo: '/admin' }
 ];
 
 @NgModule({

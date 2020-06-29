@@ -17,7 +17,7 @@ export class ApiService {
   }
 
   getResources() {
-    return this.http.get(localUrl + 'api/Resources/GetResources');
+    return this.http.get(localUrl + 'api/Resource/GetResources');
   }
 
   register(data: []) {
@@ -32,6 +32,6 @@ export class ApiService {
 
   resetPassword(data: []){
     var body = JSON.stringify(data);
-    return this.http.post(localUrl + 'api/ResetPassword', body, {headers: this.headers})
+    return this.http.post(localUrl + 'api/User/ResetPassword', body, {headers: this.headers})
   }
 }

@@ -18,7 +18,13 @@
                 <p></p>
             </div>
 
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Log In</button>
+            <div class="form-group">
+                <button [disabled]="loading" class="btn btn-lg btn-primary btn-block" type="submit">
+                    <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                    Log In
+                </button>
+            </div>
+            
             <p></p>
             <p class="text-center">Forgot <a routerLink="/reset-password">Password?</a></p>
             <p class="text-center">Create an account? <a routerLink="/register">Sign up</a></p>
