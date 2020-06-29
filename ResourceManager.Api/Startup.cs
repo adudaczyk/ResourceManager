@@ -12,7 +12,6 @@ using ResourceManager.BusinessLogic.Mappers;
 using ResourceManager.BusinessLogic.Services;
 using ResourceManager.EntityFrameworkCore;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace ResourceManager.Api
 {
@@ -29,7 +28,7 @@ namespace ResourceManager.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors();
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddSwaggerGen(c =>
             {
@@ -69,6 +68,7 @@ namespace ResourceManager.Api
                 .AllowCredentials());
 
             app.UseHttpsRedirection();
+            app.UseAuthentication();
             app.UseMvc();
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("v1/swagger.json", "My API V1"));
@@ -87,19 +87,16 @@ namespace ResourceManager.Api
             {
                 x.Events = new JwtBearerEvents
                 {
-                    OnTokenValidated = context =>
+                    OnTokenValidated = async context =>
                     {
                         var userService = context.HttpContext.RequestServices.GetRequiredService<IUserService>();
-                        //var userId = int.Parse(context.Principal.Identity.Name);
-                        // var user = userService.GetById(userId);
-                        var userGuid = context.Principal.Identity.Name;
-                        var user = userService.GetUser(userGuid);
+                        var user = await userService.GetUser(context.Principal.Identity.Name);
+
                         if (user == null)
                         {
                             // return unauthorized if user no longer exists
                             context.Fail("Unauthorized");
                         }
-                        return Task.CompletedTask;
                     }
                 };
                 x.RequireHttpsMetadata = false;

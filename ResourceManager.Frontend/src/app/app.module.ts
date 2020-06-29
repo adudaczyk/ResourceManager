@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -11,6 +11,7 @@ import { ResetPasswordComponent } from './core/authorization/reset-password/rese
 import { AdminComponent } from './core/admin/admin.component';
 import { AdminUsersComponent } from './core/admin/users/users.component';
 import { AdminResourcesComponent } from './core/admin/resources/resources.component';
+import { JwtInterceptor } from './core/helper/interceptor';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,7 @@ import { AdminResourcesComponent } from './core/admin/resources/resources.compon
     HttpClientModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -62,7 +62,8 @@ namespace ResourceManager.EntityFrameworkCore.Migrations
                     Phone = table.Column<string>(nullable: true),
                     PasswordHash = table.Column<byte[]>(nullable: true),
                     PasswordSalt = table.Column<byte[]>(nullable: true),
-                    IsEmailVerified = table.Column<bool>(nullable: false)
+                    IsEmailVerified = table.Column<bool>(nullable: false),
+                    Roles = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {

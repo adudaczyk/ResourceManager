@@ -10,7 +10,7 @@ using ResourceManager.EntityFrameworkCore;
 namespace ResourceManager.EntityFrameworkCore.Migrations
 {
     [DbContext(typeof(ResourceManagerDbContext))]
-    [Migration("20200625205806_Initial")]
+    [Migration("20200629091349_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -116,6 +116,8 @@ namespace ResourceManager.EntityFrameworkCore.Migrations
                     b.Property<byte[]>("PasswordSalt");
 
                     b.Property<string>("Phone");
+
+                    b.Property<string>("Roles");
 
                     b.HasKey("Id");
 

@@ -115,6 +115,8 @@ namespace ResourceManager.EntityFrameworkCore.Migrations
 
                     b.Property<string>("Phone");
 
+                    b.Property<string>("Roles");
+
                     b.HasKey("Id");
 
                     b.ToTable("Users","dbo");

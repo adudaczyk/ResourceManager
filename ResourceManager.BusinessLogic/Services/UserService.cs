@@ -59,6 +59,7 @@ namespace ResourceManager.BusinessLogic.Services
             user.IsEmailVerified = false;
             user.PasswordHash = passwordHash;
             user.PasswordSalt = passwordSalt;
+            user.Roles = Role.User;
 
             _userRepository.Add(user);
             await _userRepository.SaveChangesAsync();

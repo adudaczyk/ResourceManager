@@ -1,4 +1,6 @@
-﻿namespace ResourceManager.BusinessLogic.Models
+﻿using System.Collections.Generic;
+
+namespace ResourceManager.BusinessLogic.Models
 {
     public class UserDto : EntityDto
     {
@@ -8,5 +10,6 @@
         public string Phone { get; set; }
         public string Password { get; set; }
         public bool IsEmailVerified { get; set; }
+        public List<string> Roles { get; set; }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Configuration;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using ResourceManager.BusinessLogic;
 using ResourceManager.BusinessLogic.Models;
 using ResourceManager.BusinessLogic.Services;
 
@@ -38,12 +39,19 @@ namespace ResourceManager.Api.Controllers
             
             var key = Encoding.ASCII.GetBytes(_configuration["SecretToken"]);
 
+            var claims = new List<Claim>()
+            {
+                new Claim(ClaimTypes.Name, user.Guid.ToString())
+            };
+
+            foreach (var role in user.Roles.Split(';'))
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role));
+            }
+
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new Claim[]
-                {
-                    new Claim(ClaimTypes.Email, user.Email)
-                }),
+                Subject = new ClaimsIdentity(claims),
                 Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
@@ -74,7 +82,8 @@ namespace ResourceManager.Api.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
-
+        
+        [Authorize(Roles = Role.Admin)]
         [HttpGet("GetUsers")]
         public async Task<IActionResult> GetUsers()
         {
@@ -82,7 +91,7 @@ namespace ResourceManager.Api.Controllers
 
             return Ok(allUsers);
         }
-
+        
         [HttpGet("{guid}")]
         public async Task<IActionResult> GetUser(string guid)
         {
@@ -106,6 +115,7 @@ namespace ResourceManager.Api.Controllers
             }
         }
         
+        [Authorize(Roles = Role.Admin)]
         [HttpDelete("{guid}")]
         public async Task<IActionResult> DeleteUser(string guid)
         {
@@ -120,6 +130,7 @@ namespace ResourceManager.Api.Controllers
             }
         }
 
+        [AllowAnonymous]
         [HttpPut("VerifyEmail/{guid}")]
         public async Task<IActionResult> VerifyEmail(string guid)
         {

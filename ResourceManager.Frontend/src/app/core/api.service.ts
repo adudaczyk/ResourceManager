@@ -27,7 +27,7 @@ export class ApiService {
 
   auth(data: []) {
     var body = JSON.stringify(data);
-    return this.http.post(localUrl + 'api/User/Authenticate', body, {headers: this.headers})
+    return this.http.post<any>(localUrl + 'api/User/Authenticate', body, {headers: this.headers})
   }
 
   resetPassword(data: []){

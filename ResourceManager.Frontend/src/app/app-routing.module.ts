@@ -5,6 +5,7 @@ import { AdminComponent } from '../app/core/admin/admin.component';
 import { LoginComponent } from './core/authorization/login/login.component';
 import { RegisterComponent } from './core/authorization/register/register.component';
 import { ResetPasswordComponent } from './core/authorization/reset-password/reset-password.component';
+import { AuthGuard } from './core/authorization/guard/auth.guard';
 
 
 const routes: Routes = [
@@ -12,7 +13,7 @@ const routes: Routes = [
   { path: 'auth', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'reset-password', component: ResetPasswordComponent },
-  { path: 'admin', component: AdminComponent },
+  { path: 'admin', component: AdminComponent, canActivate: [AuthGuard] },
 ];
 
 @NgModule({

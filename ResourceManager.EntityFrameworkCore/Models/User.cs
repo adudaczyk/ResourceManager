@@ -14,5 +14,6 @@ namespace ResourceManager.EntityFrameworkCore.Models
         public byte[] PasswordHash { get; set; }
         public byte[] PasswordSalt { get; set; }
         public bool IsEmailVerified { get; set; }
+        public string Roles { get; set; }
     }
 }
