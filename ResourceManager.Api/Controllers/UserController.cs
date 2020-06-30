@@ -133,7 +133,7 @@ namespace ResourceManager.Api.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPut("VerifyEmail")]
+        [HttpPost("VerifyEmail")]
         public async Task<IActionResult> VerifyEmail([FromBody] UserDto userDto)
         {
             try
@@ -163,7 +163,7 @@ namespace ResourceManager.Api.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPut("ResetPassword")]
+        [HttpPost("ResetPassword")]
         public async Task<IActionResult> ResetPassword([FromBody] UserDto userDto)
         {
             try
