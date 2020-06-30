@@ -13,8 +13,8 @@ namespace ResourceManager.BusinessLogic.Services
         Task AddUser(UserDto userDto);
         Task UpdateUser(UserDto userDto);
         Task DeleteUser(string guid);
-        Task VerifyEmail(string guid);
-        void SendVerificationEmail(string email);
-        void SendResetPasswordEmail(string email);
+        Task SendResetPasswordLink(string email);
+        Task ResetPassword(UserDto userDto);
+        Task VerifyEmail(UserDto userDto);
     }
 }

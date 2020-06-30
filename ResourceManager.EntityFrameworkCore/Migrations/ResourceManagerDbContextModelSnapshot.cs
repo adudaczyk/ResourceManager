@@ -115,7 +115,11 @@ namespace ResourceManager.EntityFrameworkCore.Migrations
 
                     b.Property<string>("Phone");
 
+                    b.Property<string>("ResetPasswordToken");
+
                     b.Property<string>("Roles");
+
+                    b.Property<string>("VerificationEmailToken");
 
                     b.HasKey("Id");
 

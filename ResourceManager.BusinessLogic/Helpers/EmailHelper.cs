@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using System;
 using System.Net;
 using System.Net.Mail;
 
@@ -12,18 +13,32 @@ namespace ResourceManager.BusinessLogic.Helpers
         {
             _configuration = configuration;
         }
-        public void SendUserVerificationEmail(string email)
+        public void SendUserVerificationEmail(string email, string token)
         {
             var subject = "Resource Manager - Verification Link";
-            var body = "Please confirm your account by clicking this link: xxx";
+            var link = _configuration["ResourceManagerLink"]
+                     + "/auth"
+                     + $"?email={email}"
+                     + $"&token={token}"; ;
+
+            var body = String.Format($@"<p>Hello,<br>
+                            Please confirm your account by clicking this link: 
+                            <a href=""{link}"">confirm email</a></p>");
 
             SendEmail(email, subject, body);
         }
 
-        public void SendResetPasswordLink(string email)
+        public void SendResetPasswordLink(string email, string token)
         {
             var subject = "Resource Manager - Reset Password Link";
-            var body = "Please reset your password by clicking this link: xxx";
+            var link = _configuration["ResourceManagerLink"]
+                     + "/reset-password-step2"
+                     + $"?email={email}"
+                     + $"&token={token}";
+
+            var body = String.Format($@"<p>Hello,<br>
+                            Please reset your password by clicking this link: 
+                            <a href=""{link}"">reset password</a></p>");
 
             SendEmail(email, subject, body);
         }
@@ -36,10 +51,11 @@ namespace ResourceManager.BusinessLogic.Helpers
             client.Credentials = new NetworkCredential(_configuration["Email_Login"], _configuration["Email_Password"]);
 
             MailMessage mailMessage = new MailMessage();
-            mailMessage.From = new MailAddress("no-reply@ebrit.com");
+            mailMessage.From = new MailAddress("ebrit1999@onet.pl");
             mailMessage.To.Add(email);
-            mailMessage.Body = body;
             mailMessage.Subject = subject;
+            mailMessage.Body = body;
+            mailMessage.IsBodyHtml = true;
             client.Send(mailMessage);
         }
     }

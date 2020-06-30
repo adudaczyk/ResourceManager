@@ -55,7 +55,7 @@ namespace ResourceManager.Api.Controllers
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.UtcNow.AddDays(7),
+                Expires = DateTime.UtcNow.AddMinutes(1),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
 
@@ -66,8 +66,7 @@ namespace ResourceManager.Api.Controllers
             return Ok(new
             {
                 Email = user.Email,
-                Token = tokenString,
-                ExpiredDate = tokenDescriptor.Expires
+                Token = tokenString
             });
         }
 
@@ -134,12 +133,42 @@ namespace ResourceManager.Api.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPut("VerifyEmail/{guid}")]
-        public async Task<IActionResult> VerifyEmail(string guid)
+        [HttpPut("VerifyEmail")]
+        public async Task<IActionResult> VerifyEmail([FromBody] UserDto userDto)
         {
             try
             {
-                await _userService.VerifyEmail(guid);
+                await _userService.VerifyEmail(userDto);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        [AllowAnonymous]
+        [HttpPost("SendResetPasswordLink")]
+        public async Task<IActionResult> SendResetPasswordLink([FromBody] UserDto userDto)
+        {
+            try
+            {
+                await _userService.SendResetPasswordLink(userDto.Email);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        [AllowAnonymous]
+        [HttpPut("ResetPassword")]
+        public async Task<IActionResult> ResetPassword([FromBody] UserDto userDto)
+        {
+            try
+            {
+                await _userService.ResetPassword(userDto);
                 return Ok();
             }
             catch (Exception ex)

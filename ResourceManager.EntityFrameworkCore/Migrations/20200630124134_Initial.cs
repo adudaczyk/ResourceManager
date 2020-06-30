@@ -63,7 +63,9 @@ namespace ResourceManager.EntityFrameworkCore.Migrations
                     PasswordHash = table.Column<byte[]>(nullable: true),
                     PasswordSalt = table.Column<byte[]>(nullable: true),
                     IsEmailVerified = table.Column<bool>(nullable: false),
-                    Roles = table.Column<string>(nullable: true)
+                    Roles = table.Column<string>(nullable: true),
+                    VerificationEmailToken = table.Column<string>(nullable: true),
+                    ResetPasswordToken = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {

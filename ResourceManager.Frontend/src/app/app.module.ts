@@ -7,7 +7,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './core/authorization/login/login.component';
 import { RegisterComponent } from './core/authorization/register/register.component';
-import { ResetPasswordComponent } from './core/authorization/reset-password/reset-password.component';
+import { ResetPasswordStep1Component } from './core/authorization/reset-password-step1/reset-password-step1.component';
+import { ResetPasswordStep2Component } from './core/authorization/reset-password-step2/reset-password-step2.component';
 import { AdminComponent } from './core/admin/admin.component';
 import { AdminUsersComponent } from './core/admin/users/users.component';
 import { AdminResourcesComponent } from './core/admin/resources/resources.component';
@@ -20,7 +21,8 @@ import { ErrorInterceptor } from './core/_helpers/error.interceptor';
     AppComponent,
     LoginComponent,
     RegisterComponent,
-    ResetPasswordComponent,
+    ResetPasswordStep1Component,
+    ResetPasswordStep2Component,
     AdminComponent,
     AdminUsersComponent,
     AdminResourcesComponent,

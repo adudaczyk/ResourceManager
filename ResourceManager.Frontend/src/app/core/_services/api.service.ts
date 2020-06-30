@@ -30,8 +30,18 @@ export class ApiService {
     return this.http.post<any>(localUrl + 'api/User/Authenticate', body, {headers: this.headers})
   }
 
-  resetPassword(data: []){
+  resetPasswordStep1(data: []){
     var body = JSON.stringify(data);
-    return this.http.post(localUrl + 'api/User/ResetPassword', body, {headers: this.headers})
+    return this.http.post(localUrl + 'api/User/SendResetPasswordLink', body, {headers: this.headers})
+  }
+
+  resetPasswordStep2(data: []){
+    var body = JSON.stringify(data);
+    return this.http.put(localUrl + 'api/User/ResetPassword', body, {headers: this.headers})
+  }
+
+  verifyEmail(data: []){
+    var body = JSON.stringify(data);
+    return this.http.put(localUrl + 'api/User/VerifyEmail', body, {headers: this.headers})
   }
 }

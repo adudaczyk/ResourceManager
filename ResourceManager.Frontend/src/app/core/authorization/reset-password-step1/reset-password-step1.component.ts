@@ -5,10 +5,10 @@ import { Router  } from '@angular/router';
 import { AuthenticationService } from '../../_services/authentication.service';
 
 @Component({
-    selector: 'app-reset-password',
-    templateUrl: './reset-password.component.html'
+    selector: 'app-reset-password-step1',
+    templateUrl: './reset-password-step1.component.html'
 })
-export class ResetPasswordComponent implements OnInit {
+export class ResetPasswordStep1Component implements OnInit {
 
     resetPasswordForm: FormGroup;
 
@@ -30,7 +30,7 @@ export class ResetPasswordComponent implements OnInit {
     }
 
     onSubmit() {
-        this.apiServive.resetPassword(this.resetPasswordForm.value).subscribe(
+        this.apiServive.resetPasswordStep1(this.resetPasswordForm.value).subscribe(
             (response) => console.log(response),
             (error) => console.log(error)
             )

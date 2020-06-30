@@ -11,5 +11,7 @@ namespace ResourceManager.BusinessLogic.Models
         public string Password { get; set; }
         public bool IsEmailVerified { get; set; }
         public List<string> Roles { get; set; }
+        public string VerificationEmailToken { get; set; }
+        public string ResetPasswordToken { get; set; }
     }
 }

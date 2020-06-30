@@ -15,5 +15,7 @@ namespace ResourceManager.EntityFrameworkCore.Models
         public byte[] PasswordSalt { get; set; }
         public bool IsEmailVerified { get; set; }
         public string Roles { get; set; }
+        public string VerificationEmailToken { get; set; }
+        public string ResetPasswordToken { get; set; }
     }
 }

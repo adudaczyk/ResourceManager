@@ -64,9 +64,13 @@ namespace ResourceManager.BusinessLogic.Services
             user.PasswordHash = passwordHash;
             user.PasswordSalt = passwordSalt;
             user.Roles = Role.User;
+            user.VerificationEmailToken = GenerateRandomToken();
 
             _userRepository.Add(user);
             await _userRepository.SaveChangesAsync();
+            
+            var emailHelper = new EmailHelper(_configuration);
+            emailHelper.SendUserVerificationEmail(user.Email, user.VerificationEmailToken);
         }
 
         public async Task UpdateUser(UserDto userDto)
@@ -102,25 +106,57 @@ namespace ResourceManager.BusinessLogic.Services
             await _userRepository.SaveChangesAsync();
         }
 
-        public async Task VerifyEmail(string guid)
+        public async Task VerifyEmail(string email, string token)
         {
-            var user = await _userRepository.GetByGuid(guid);
+            var user = await _userRepository.GetByGuid("");
             user.IsEmailVerified = true;
 
             _userRepository.Update(user);
             await _userRepository.SaveChangesAsync();
         }
 
-        public void SendVerificationEmail(string email)
+        public async Task SendResetPasswordLink(string email)
         {
+            var user = await _userRepository.GetByEmail(email);
+
+            if (user == null) throw new ArgumentException("Invalid email");
+
+            var token = GenerateRandomToken();
+            user.ResetPasswordToken = token;
+            _userRepository.Update(user);
+
             var emailHelper = new EmailHelper(_configuration);
-            emailHelper.SendUserVerificationEmail(email);
+            emailHelper.SendResetPasswordLink(email, token);
+
+            await _userRepository.SaveChangesAsync();
         }
 
-        public void SendResetPasswordEmail(string email)
+        public async Task ResetPassword(UserDto userDto)
         {
-            var emailHelper = new EmailHelper(_configuration);
-            emailHelper.SendResetPasswordLink(email);
+            var user = await _userRepository.GetByEmail(userDto.Email);
+
+            if (user == null || user.ResetPasswordToken != userDto.ResetPasswordToken) throw new ArgumentException("Invalid token");
+
+            _mapper.Map(userDto, user);
+            byte[] passwordHash, passwordSalt;
+            CreatePasswordHash(userDto.Password, out passwordHash, out passwordSalt);
+            user.PasswordHash = passwordHash;
+            user.PasswordSalt = passwordSalt;
+            user.ResetPasswordToken = null;
+
+            _userRepository.Update(user);
+            await _userRepository.SaveChangesAsync();
+        }
+
+        public async Task VerifyEmail(UserDto userDto)
+        {
+            var user = await _userRepository.GetByEmail(userDto.Email);
+
+            if (user == null || user.VerificationEmailToken != userDto.VerificationEmailToken) throw new ArgumentException("Invalid token");
+
+            user.IsEmailVerified = true;
+            _userRepository.Update(user);
+            await _userRepository.SaveChangesAsync();
         }
 
         private static void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
@@ -152,6 +188,16 @@ namespace ResourceManager.BusinessLogic.Services
             }
 
             return true;
+        }
+
+        private string GenerateRandomToken()
+        {
+            var guid = Guid.NewGuid();
+            var token = Convert.ToBase64String(guid.ToByteArray());
+            token = token.Replace("+", "");
+            token = token.Replace("=", "");
+
+            return token;
         }
     }
 }
