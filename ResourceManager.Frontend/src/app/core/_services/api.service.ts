@@ -13,35 +13,35 @@ export class ApiService {
   constructor(private http: HttpClient) { }
 
   getUsers() {
-    return this.http.get(localUrl + 'api/User/GetUsers');
+    return this.http.get(localUrl + 'api/user/get-users');
   }
 
   getResources() {
-    return this.http.get(localUrl + 'api/Resource/GetResources');
+    return this.http.get(localUrl + 'api/resource/get-resources');
   }
 
   register(data: []) {
     var body = JSON.stringify(data);
-    return this.http.post(localUrl + 'api/User/Register', body, {headers: this.headers})
+    return this.http.post(localUrl + 'api/user/register', body, {headers: this.headers})
   }
 
   auth(data: []) {
     var body = JSON.stringify(data);
-    return this.http.post<any>(localUrl + 'api/Auth/authenticate', body, {headers: this.headers})
+    return this.http.post<any>(localUrl + 'api/auth/authenticate', body, {headers: this.headers})
   }
 
   resetPasswordStep1(data: []){
     var body = JSON.stringify(data);
-    return this.http.post(localUrl + 'api/User/SendResetPasswordLink', body, {headers: this.headers})
+    return this.http.post(localUrl + 'api/user/send-reset-password-link', body, {headers: this.headers})
   }
 
   resetPasswordStep2(data: []){
     var body = JSON.stringify(data);
-    return this.http.post(localUrl + 'api/User/ResetPassword', body, {headers: this.headers})
+    return this.http.post(localUrl + 'api/user/reset-password', body, {headers: this.headers})
   }
 
   verifyEmail(data: []){
     var body = JSON.stringify(data);
-    return this.http.post(localUrl + 'api/User/VerifyEmail', body, {headers: this.headers})
+    return this.http.post(localUrl + 'api/user/verify-email', body, {headers: this.headers})
   }
 }

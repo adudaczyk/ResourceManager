@@ -24,7 +24,7 @@ namespace ResourceManager.Api.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost("Register")]
+        [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] UserDto userDto)
         {
             try
@@ -39,7 +39,7 @@ namespace ResourceManager.Api.Controllers
         }
         
         [Authorize(Roles = Role.Admin)]
-        [HttpGet("GetUsers")]
+        [HttpGet("get-users")]
         public async Task<IActionResult> GetUsers()
         {
             var allUsers = await _userService.GetUsers();
@@ -86,7 +86,7 @@ namespace ResourceManager.Api.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost("VerifyEmail")]
+        [HttpPost("verify-email")]
         public async Task<IActionResult> VerifyEmail([FromBody] UserDto userDto)
         {
             try
@@ -101,7 +101,7 @@ namespace ResourceManager.Api.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost("SendResetPasswordLink")]
+        [HttpPost("send-reset-password-link")]
         public async Task<IActionResult> SendResetPasswordLink([FromBody] UserDto userDto)
         {
             try
@@ -116,7 +116,7 @@ namespace ResourceManager.Api.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost("ResetPassword")]
+        [HttpPost("reset-password")]
         public async Task<IActionResult> ResetPassword([FromBody] UserDto userDto)
         {
             try

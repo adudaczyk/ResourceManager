@@ -5,8 +5,6 @@ import { map } from 'rxjs/operators';
 
 import { User } from '../_models/user';
 
-const localUrl = 'https://localhost:44320/';
-
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
     private currentUserSubject: BehaviorSubject<User>;

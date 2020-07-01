@@ -18,7 +18,7 @@ namespace ResourceItemManager.Api.Controllers
             _resourceItemService = resourceItemService;
         }
 
-        [HttpGet("GetResourceItems")]
+        [HttpGet("get-resource-items")]
         public async Task<IEnumerable<ResourceItemDto>> GetResourceItems()
         {
             var allResourceItems = await _resourceItemService.GetResourceItems();

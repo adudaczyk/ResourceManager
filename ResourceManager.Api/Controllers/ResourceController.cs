@@ -18,7 +18,7 @@ namespace ResourceManager.Api.Controllers
             _resourceService = resourceService;
         }
 
-        [HttpGet("GetResources")]
+        [HttpGet("get-resources")]
         public async Task<IEnumerable<ResourceDto>> GetResources()
         {
             var allResources = await _resourceService.GetResources();

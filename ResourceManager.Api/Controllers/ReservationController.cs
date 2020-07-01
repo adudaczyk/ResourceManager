@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ResourceManager.BusinessLogic.Models;
 using ResourceManager.BusinessLogic.Services;
@@ -38,7 +36,7 @@ namespace ResourceManager.Api.Controllers
             await _reservationService.DeleteReservation(guid);
         }
 
-        [HttpPut("AcceptReservation/{guid}")]
+        [HttpPut("accept-reservation/{guid}")]
         public async Task VerifyEmail(string guid)
         {
             await _reservationService.AcceptReservation(guid);
