@@ -7,6 +7,7 @@ namespace ResourceManager.EntityFrameworkCore
     {
         public static void RegisterServices(this IServiceCollection services)
         {
+            services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IResourceService, ResourceService>();
             services.AddScoped<IResourceItemService, ResourceItemService>();

@@ -62,8 +62,8 @@ namespace ResourceManager.EntityFrameworkCore.Migrations
                     Phone = table.Column<string>(nullable: true),
                     PasswordHash = table.Column<byte[]>(nullable: true),
                     PasswordSalt = table.Column<byte[]>(nullable: true),
-                    IsEmailVerified = table.Column<bool>(nullable: false),
                     Roles = table.Column<string>(nullable: true),
+                    IsEmailVerified = table.Column<bool>(nullable: false),
                     VerificationEmailToken = table.Column<string>(nullable: true),
                     ResetPasswordToken = table.Column<string>(nullable: true)
                 },
@@ -97,6 +97,38 @@ namespace ResourceManager.EntityFrameworkCore.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "RefreshToken",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Token = table.Column<string>(nullable: true),
+                    Expires = table.Column<DateTime>(nullable: false),
+                    Created = table.Column<DateTime>(nullable: false),
+                    CreatedByIp = table.Column<string>(nullable: true),
+                    Revoked = table.Column<DateTime>(nullable: true),
+                    RevokedByIp = table.Column<string>(nullable: true),
+                    ReplacedByToken = table.Column<string>(nullable: true),
+                    UserId = table.Column<long>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RefreshToken", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_RefreshToken_Users_UserId",
+                        column: x => x.UserId,
+                        principalSchema: "dbo",
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RefreshToken_UserId",
+                table: "RefreshToken",
+                column: "UserId");
+
             migrationBuilder.CreateIndex(
                 name: "IX_ResourceItems_ResourceId1",
                 schema: "dbo",
@@ -113,6 +145,9 @@ namespace ResourceManager.EntityFrameworkCore.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "RefreshToken");
+
             migrationBuilder.DropTable(
                 name: "Reservations",
                 schema: "dbo");

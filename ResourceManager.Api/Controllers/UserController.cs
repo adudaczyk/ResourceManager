@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
 using ResourceManager.BusinessLogic;
 using ResourceManager.BusinessLogic.Models;
 using ResourceManager.BusinessLogic.Services;
@@ -26,48 +21,6 @@ namespace ResourceManager.Api.Controllers
         {
             _userService = userService;
             _configuration = configuration;
-        }
-
-        [AllowAnonymous]
-        [HttpPost("Authenticate")]
-        public async Task<IActionResult> Authenticate([FromBody] UserDto userDto)
-        {
-            var user = await _userService.Authenticate(userDto.Email, userDto.Password);
-
-            if (user == null)
-                return BadRequest(new { message = "Email or password is incorrect" });
-
-            if (!user.IsEmailVerified)
-                return BadRequest(new { message = "Email address is not verified" });
-
-            var key = Encoding.ASCII.GetBytes(_configuration["SecretToken"]);
-
-            var claims = new List<Claim>()
-            {
-                new Claim(ClaimTypes.Name, user.Guid.ToString())
-            };
-
-            foreach (var role in user.Roles.Split(';'))
-            {
-                claims.Add(new Claim(ClaimTypes.Role, role));
-            }
-
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.UtcNow.AddMinutes(1),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            };
-
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            var tokenString = tokenHandler.WriteToken(token);
-
-            return Ok(new
-            {
-                Email = user.Email,
-                Token = tokenString
-            });
         }
 
         [AllowAnonymous]

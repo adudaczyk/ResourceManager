@@ -10,7 +10,7 @@ using ResourceManager.EntityFrameworkCore;
 namespace ResourceManager.EntityFrameworkCore.Migrations
 {
     [DbContext(typeof(ResourceManagerDbContext))]
-    [Migration("20200701065751_Initial")]
+    [Migration("20200701110812_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -136,6 +136,42 @@ namespace ResourceManager.EntityFrameworkCore.Migrations
                     b.HasOne("ResourceManager.EntityFrameworkCore.Models.Resource")
                         .WithMany("ResourceItems")
                         .HasForeignKey("ResourceId1");
+                });
+
+            modelBuilder.Entity("ResourceManager.EntityFrameworkCore.Models.User", b =>
+                {
+                    b.OwnsMany("ResourceManager.EntityFrameworkCore.Models.RefreshToken", "RefreshTokens", b1 =>
+                        {
+                            b1.Property<int>("Id")
+                                .ValueGeneratedOnAdd()
+                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                            b1.Property<DateTime>("Created");
+
+                            b1.Property<string>("CreatedByIp");
+
+                            b1.Property<DateTime>("Expires");
+
+                            b1.Property<string>("ReplacedByToken");
+
+                            b1.Property<DateTime?>("Revoked");
+
+                            b1.Property<string>("RevokedByIp");
+
+                            b1.Property<string>("Token");
+
+                            b1.Property<long?>("UserId");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("UserId");
+
+                            b1.ToTable("RefreshToken");
+
+                            b1.HasOne("ResourceManager.EntityFrameworkCore.Models.User")
+                                .WithMany("RefreshTokens")
+                                .HasForeignKey("UserId");
+                        });
                 });
 #pragma warning restore 612, 618
         }

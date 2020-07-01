@@ -23,20 +23,6 @@ namespace ResourceManager.BusinessLogic.Services
             _configuration = configuration;
         }
 
-        public async Task<User> Authenticate(string email, string password)
-        {
-            if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
-                return null;
-
-            var user = await _userRepository.GetByEmail(email);
-            
-            if (user == null) return null;
-            
-            if (!VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt)) return null;
-
-            return user;
-        }
-
         public async Task<IEnumerable<UserDto>> GetUsers()
         {
             var users = await _userRepository.GetAllAsync();

@@ -13,7 +13,12 @@ namespace ResourceManager.EntityFrameworkCore.Repositories
 
         public async Task<User> GetByEmail(string email)
         {
-            return await _dbSet.Where(x => x.Email == email).FirstOrDefaultAsync();
+            return await _dbSet.Where(u => u.Email == email).FirstOrDefaultAsync();
+        }
+
+        public async Task<User> GetByRefreshToken(string token)
+        {
+            return await _dbSet.Where(u => u.RefreshTokens.Any(t => t.Token == token)).SingleOrDefaultAsync();
         }
     }
 }
