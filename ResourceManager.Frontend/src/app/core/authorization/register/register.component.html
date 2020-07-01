@@ -8,40 +8,109 @@
 
             <div class="form-group">
                 <label for="inputFirstName" class="sr-only">First Name</label>
-                <input type="text" id="inputFirstName" formControlName="firstName" class="form-control" placeholder="First Name" required autofocus>
-                <span *ngIf="!registerForm.get('firstName').valid && registerForm.get('firstName').touched" class="help-block">Please enter a valid first name!</span>
+                <input 
+                type="text" 
+                id="inputFirstName" 
+                formControlName="firstName" 
+                class="form-control" 
+                [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }" 
+                placeholder="First Name" 
+                autofocus
+                >
+                <div *ngIf="submitted && f.firstName.errors">
+                    <span *ngIf="f.firstName.errors.required" class="help-block">First name is required!</span>
+                    <span *ngIf="f.firstName.errors.length" class="help-block">First name must be at least 3 characters</span>
+                </div>
             </div>
             <p></p>
 
             <div class="form-group">
                 <label for="inputLastName" class="sr-only">Last Name</label>
-                <input type="text" id="inputLastName" formControlName="lastName" class="form-control" placeholder="Last Name" required autofocus>
-                <span *ngIf="!registerForm.get('lastName').valid && registerForm.get('lastName').touched" class="help-block">Please enter a valid last name!</span>
+                <input 
+                type="text" 
+                id="inputLastName" 
+                formControlName="lastName" 
+                class="form-control" 
+                [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }"
+                placeholder="Last Name"
+                >
+                <div *ngIf="submitted && f.lastName.errors">
+                    <span *ngIf="f.lastName.errors.required" class="help-block">Last name is required!</span>
+                    <span *ngIf="f.lastName.errors.length" class="help-block">Last name must be at least 3 characters</span>
+                </div>
             </div>
             <p></p>
 
             <div class="form-group">
                 <label for="inputPhone" class="sr-only">Phone</label>
-                <input type="tel" id="inputPhone" formControlName="phone" class="form-control" placeholder="Phone" required autofocus>
-                <span *ngIf="!registerForm.get('phone').valid && registerForm.get('phone').touched" class="help-block">Please enter a valid phone!</span>
+                <input 
+                type="tel" 
+                id="inputPhone" 
+                formControlName="phone" 
+                class="form-control" 
+                [ngClass]="{ 'is-invalid': submitted && f.phone.errors }"
+                placeholder="Phone"
+                >
+                <div *ngIf="submitted && f.phone.errors">
+                    <span *ngIf="f.phone.errors.required" class="help-block">Phone number is required!</span>
+                </div>
             </div>
             <p></p>
 
             <div class="form-group">
                 <label for="inputEmail" class="sr-only">Email</label>
-                <input type="email" id="inputEmail" formControlName="email" class="form-control" placeholder="Email" required autofocus>
-                <span *ngIf="!registerForm.get('email').valid && registerForm.get('email').touched" class="help-block">Please enter a valid email!</span>
+                <input 
+                type="email" 
+                id="inputEmail" 
+                formControlName="email" 
+                class="form-control" 
+                [ngClass]="{ 'is-invalid': submitted && f.email.errors }"
+                placeholder="Email"
+                >
+                <div *ngIf="submitted && f.email.errors">
+                    <span *ngIf="f.email.errors.required" class="help-block">Email is required</span>
+                    <span *ngIf="f.email.errors.email" class="help-block">Invalid email format</span>
+                </div>
             </div>
             <p></p>
 
             <div class="form-group">
                 <label for="inputPassword" class="sr-only">Password</label>
-                <input type="password" id="inputPassword" formControlName="password" class="form-control" placeholder="Password" required>
-                <span *ngIf="!registerForm.get('password').valid && registerForm.get('password').touched" class="help-block">Please enter a valid password - minimum 6 chars!</span>
+                <input 
+                type="password" 
+                id="inputPassword" 
+                formControlName="password" 
+                class="form-control" 
+                [ngClass]="{ 'is-invalid': submitted && f.password.errors }"
+                placeholder="Password"
+                >
+                <div *ngIf="submitted && f.password.errors">
+                    <span *ngIf="f.password.errors.required" class="help-block">Password is required</span>
+                    <span *ngIf="f.password.errors.minlength" class="help-block">Password must be at least 6 characters</span>
+                </div>
             </div>
             <p></p>
 
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
+            <div class="form-group">
+                <label for="inputconfirmPassword" class="sr-only">Password</label>
+                <input 
+                type="password" 
+                id="inputconfirmPassword" 
+                formControlName="confirmPassword" 
+                class="form-control" 
+                [ngClass]="{ 'is-invalid': submitted && f.confirmPassword.errors }"
+                placeholder="Confirm password"
+                >
+                <div *ngIf="submitted && f.confirmPassword.errors">
+                    <span *ngIf="f.confirmPassword.errors.required" class="help-block">Confirm password is required</span>
+                    <span *ngIf="f.confirmPassword.errors.mustMatch || f.confirmPassword.errors.minlength" class="help-block">Passwords must match</span>
+                </div>
+            </div>
+            <p></p>
+
+            <button [disabled]="loading" class="btn btn-lg btn-primary btn-block" type="submit">
+                <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                Register</button>
             <p></p>
             <p class="text-center">Already have an account? <a routerLink="/auth">Login</a></p>
           </form>

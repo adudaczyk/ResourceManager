@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { AlertService } from '../../_services/alert.service';
@@ -9,19 +9,21 @@ import { ApiService } from '../../_services/api.service';
 
 @Component({
     selector: 'app-login',
-    templateUrl: './login.component.html'
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.css']
 })
 
 @Injectable({providedIn: 'root'})
 export class LoginComponent implements OnInit {
 
     loginForm: FormGroup;
-    loading = false;
     submitted = false;
+    loading = false;
     email = "";
     token = "";
 
     constructor(
+        private formBuilder: FormBuilder,
         private router: Router,
         private authenticationService: AuthenticationService,
         private alertService: AlertService,
@@ -52,17 +54,24 @@ export class LoginComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.loginForm = new FormGroup({
-            'email': new FormControl(null, [Validators.required, Validators.email]),
-            'password': new FormControl(null, Validators.required)
+        this.loginForm = this.formBuilder.group({
+            'email': [null, [Validators.required]],
+            'password': [null, [Validators.required]],
         });
     }
+
+    // convenience getter for easy access to form fields
+    get f() { return this.loginForm.controls; }
 
     login() {
         this.submitted = true;
 
         // reset alerts on submit
         this.alertService.clear();
+
+        if (this.loginForm.invalid) {
+            return;
+        }
 
         this.loading = true;
         this.authenticationService.login(this.loginForm.controls.email.value, this.loginForm.controls.password.value)

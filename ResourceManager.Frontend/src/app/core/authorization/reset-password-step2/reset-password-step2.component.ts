@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../../_services/api.service';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { AuthenticationService } from '../../_services/authentication.service';
 import { AlertService } from '../../_services/alert.service';
 import { MustMatch } from '../../_validators/must-match.validator';
 
@@ -15,6 +14,7 @@ export class ResetPasswordStep2Component implements OnInit {
 
     resetPasswordForm: FormGroup;
     submitted = false;
+    loading = false;
     email = "";
     token = "";
 
@@ -22,7 +22,6 @@ export class ResetPasswordStep2Component implements OnInit {
         private formBuilder: FormBuilder,
         private apiServive: ApiService,
         private router: Router,
-        private authenticationService: AuthenticationService,
         private alertService: AlertService,
         private activatedRoute: ActivatedRoute) {
 
@@ -50,19 +49,21 @@ export class ResetPasswordStep2Component implements OnInit {
     onSubmit() {
         this.submitted = true;
 
-        console.log(this.resetPasswordForm.value)
-
         if (this.resetPasswordForm.invalid) {
             return;
         }
+
+        this.loading = true;
         
         this.apiServive.resetPasswordStep2(this.resetPasswordForm.value).subscribe(
             response => {
             this.router.navigate(['/auth']);
             this.alertService.success('Password has been changed successfully.');
         },
-            (error) => this.alertService.error(error)
-            )
+        error => {
+            this.alertService.error(error);
+            this.loading = false;
+        })
     }
 
 }
