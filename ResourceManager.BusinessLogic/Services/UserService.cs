@@ -53,6 +53,11 @@ namespace ResourceManager.BusinessLogic.Services
 
         public async Task AddUser(UserDto userDto)
         {
+            if (await _userRepository.GetByEmail(userDto.Email) != null)
+            {
+                throw new ArgumentException($"User with email {userDto.Email} already exist!");
+            }
+
             var user = _mapper.Map<User>(userDto);
 
             byte[] passwordHash, passwordSalt;

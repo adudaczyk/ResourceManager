@@ -18,5 +18,10 @@ namespace ResourceManager.EntityFrameworkCore
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
         }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.Entity<User>().HasIndex(u => u.Email).IsUnique();
+        }
     }
 }

@@ -102,6 +102,13 @@ namespace ResourceManager.EntityFrameworkCore.Migrations
                 schema: "dbo",
                 table: "ResourceItems",
                 column: "ResourceId1");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_Email",
+                schema: "dbo",
+                table: "Users",
+                column: "Email",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
