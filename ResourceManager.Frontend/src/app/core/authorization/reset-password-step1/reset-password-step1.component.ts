@@ -47,7 +47,10 @@ export class ResetPasswordStep1Component implements OnInit {
         this.loading = true;
 
         this.apiServive.resetPasswordStep1(this.resetPasswordForm.value).subscribe(
-            (response) => console.log(response),
+            response => {
+                this.alertService.success('Password reset link has been send to your email');
+                this.loading = false;
+            },
             error => {
                     this.alertService.error(error);
                     this.loading = false;
