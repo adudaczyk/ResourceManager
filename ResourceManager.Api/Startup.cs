@@ -2,10 +2,10 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using ResourceManager.BusinessLogic.Mappers;
@@ -28,7 +28,8 @@ namespace ResourceManager.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors();
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddControllers();
+            services.AddRazorPages();
             services.AddRouting(options => options.LowercaseUrls = true);
 
             services.AddSwaggerGen(c =>
@@ -38,6 +39,15 @@ namespace ResourceManager.Api
                     Version = "v1",
                     Title = "ResourceManager API",
                 });
+            });
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder
+                        .AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader());
             });
 
             services.AddDbContext<ResourceManagerDbContext>(options => options.UseSqlServer(Configuration["DbConnectionString"]));
@@ -51,7 +61,7 @@ namespace ResourceManager.Api
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -62,15 +72,14 @@ namespace ResourceManager.Api
                 app.UseHsts();
             }
 
-            app.UseCors(builder => builder
-                .AllowAnyOrigin()
-                .AllowAnyMethod()
-                .AllowAnyHeader()
-                .AllowCredentials());
-
             app.UseHttpsRedirection();
+            app.UseRouting();
+            app.UseCors();
             app.UseAuthentication();
-            app.UseMvc();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("v1/swagger.json", "My API V1"));
         }
